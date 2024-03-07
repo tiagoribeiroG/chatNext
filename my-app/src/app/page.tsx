@@ -12,7 +12,14 @@ const Page = () => {
   
 
   const [sidebarOpened, setSidebarOpened] = useState(false);
-  const [chatActive, setChatActive] = useState<Chat>();
+  const [chatActive, setChatActive] = useState<Chat>({
+    id: '123', 
+    title: 'Hello World! IA', 
+    messages: [
+      { id: '99', author: 'me', body: 'opa, tudo bom'},
+      {id:'100',author:'ai', body: 'Tudo otimo, em que posso ajudar'}
+    ]
+  });
 
   const openSidebar = () => setSidebarOpened(true);
   const closeSidebar = () => setSidebarOpened(false);
