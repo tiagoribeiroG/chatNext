@@ -3,23 +3,28 @@
 import { Chat } from "@/types/Chat";
 import { ChatArea } from "./components/ChatArea";
 import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+
 // Marque o componente pai como um "Client Component"
 
 import { Sidebar } from "./components/Sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 
 const Page = () => {
   
 
   const [sidebarOpened, setSidebarOpened] = useState(false);
-  const [chatActive, setChatActive] = useState<Chat>({
-    id: '123', 
-    title: 'Hello World! IA', 
-    messages: [
-      { id: '99', author: 'me', body: 'opa, tudo bom'},
-      {id:'100',author:'ai', body: 'Tudo otimo, em que posso ajudar'}
-    ]
-  });
+  const [chatList, setChatList] = useState<Chat[]>([]);
+  const [chatActiveId, setChatActiveId] = useState<string>('');
+  const [chatActive, setChatActive] = useState<Chat>();
+  const [AILoading, setAILoading] = useState(false);
+
+  useEffect(() => {
+    setChatActive(chatList.find(item => item.id === chatActiveId));
+  }, [chatActiveId, chatList]); 
+
+  const [AILoading, setAILoading] = useState(false)
 
   const openSidebar = () => setSidebarOpened(true);
   const closeSidebar = () => setSidebarOpened(false);
@@ -27,10 +32,23 @@ const Page = () => {
  
 
   const handleClearConversations = () => {
+    if(AILoading) return;
 
-  }
+    setChatActiveId('');
+    setChatList([]);
+  };
+
+  
   const handleNewChat = () => {
+    if(AILoading) return;
+
+    setChatActiveId('');
+    closeSidebar();
     
+  }
+
+  const hadleSendMessage = () => {  
+
   }
 
 
@@ -55,6 +73,11 @@ return (
       />
       
       <ChatArea chat={chatActive} />
+
+      <Footer 
+      onSendMessage={handleSendMessage}
+      disable={AILoading}
+      />
 
     </section>
   </main>);
