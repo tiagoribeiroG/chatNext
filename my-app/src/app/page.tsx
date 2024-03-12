@@ -18,7 +18,7 @@ const Page = () => {
   const [chatList, setChatList] = useState<Chat[]>([]);
   const [chatActiveId, setChatActiveId] = useState<string>('');
   const [chatActive, setChatActive] = useState<Chat>();
-  const [AILoading, setAILoading] = useState(false);
+  
 
   useEffect(() => {
     setChatActive(chatList.find(item => item.id === chatActiveId));
@@ -75,8 +75,8 @@ return (
       <ChatArea chat={chatActive} />
 
       <Footer 
-      onSendMessage={handleSendMessage}
-      disable={AILoading}
+      // onSendMessage={handleSendMessage}
+      disabled={AILoading}
       />
 
     </section>
