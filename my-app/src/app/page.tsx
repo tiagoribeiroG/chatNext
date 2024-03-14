@@ -4,6 +4,7 @@ import { Chat } from "@/types/Chat";
 import { ChatArea } from "./components/ChatArea";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import {v4 as uuidv4 } from 'uuid';
 
 // Marque o componente pai como um "Client Component"
 
@@ -47,7 +48,31 @@ const Page = () => {
     
   }
 
-  const hadleSendMessage = () => {  
+  const hadleSendMessage = (message: string) => {  
+    if(!chatActiveId) {
+      // creating new chat minuto 2:25
+      let newChatId = uuidv4();
+      setChatList([{
+        id: newChatId,
+        title: message,
+        messages: [
+          { id: uuidv4(), author: 'me', body: message}
+        ]
+      }, ...chatList,]);
+
+      setChatActiveId(newChatId); 
+
+    } else {
+      // updating existing chat
+      let chatListClone = [...chatList,];
+      let chatIndex = chatListClone.findIndex(item => item.id === chatActiveId);
+      chatListClone[chatIndex].messages.push({
+        id: uuidv4(), 
+        author: 'me', 
+        body: message
+      })
+       }
+
 
   }
 
